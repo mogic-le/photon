@@ -40,5 +40,5 @@ public abstract class AbstractPhotonRequestHandler<R extends PhotonRequest> impl
      * Given a {@link PhotonRequest photon request}, build a {@link TagFilterQueryBuilder photon specific query builder} that can be used in the {@link
      * AbstractPhotonRequestHandler#handle handle} method to execute the search.
      */
-    abstract TagFilterQueryBuilder buildQuery(R photonRequest);
+    protected abstract TagFilterQueryBuilder buildQuery(R photonRequest);
 }
