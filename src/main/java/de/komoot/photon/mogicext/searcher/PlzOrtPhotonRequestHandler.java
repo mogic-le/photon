@@ -1,17 +1,14 @@
 package de.komoot.photon.mogicext.searcher;
 
-import com.vividsolutions.jts.geom.Point;
 import de.komoot.photon.mogicext.PlzOrtRequest;
+import de.komoot.photon.mogicext.query.PostcodeQueryBuilder;
 import de.komoot.photon.query.PhotonQueryBuilder;
 import de.komoot.photon.query.TagFilterQueryBuilder;
 import de.komoot.photon.searcher.AbstractPhotonRequestHandler;
 import de.komoot.photon.searcher.ElasticsearchSearcher;
 import de.komoot.photon.searcher.PhotonRequestHandler;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PlzOrtPhotonRequestHandler extends AbstractPhotonRequestHandler<PlzOrtRequest> implements PhotonRequestHandler<PlzOrtRequest> {
 	public PlzOrtPhotonRequestHandler(ElasticsearchSearcher elasticsearchSearcher) {
@@ -20,16 +17,22 @@ public class PlzOrtPhotonRequestHandler extends AbstractPhotonRequestHandler<Plz
 
 	@Override
 	public TagFilterQueryBuilder buildQuery(PlzOrtRequest photonRequest) {
-		Point point = photonRequest.getLocationForBias();
+		TagFilterQueryBuilder builder;
 
-		Set<String> values = new HashSet<>(1);
-		values.add("city");
-		Map<String,Set<String>> tags = new HashMap<>();
-		tags.put("place", values);
+		if (photonRequest.hasOrt()) {
+			builder = PhotonQueryBuilder.builder(photonRequest.getOrt(), photonRequest.getLanguage());
 
-		//TODO plz/ort richtig nutzen
-		return PhotonQueryBuilder.builder(photonRequest.getQuery(), photonRequest.getLanguage())
-				.withTags(tags)
-				.withLocationBias(point);
+			Set<String> values = new HashSet<>(1);
+			values.add("city");
+			Map<String,Set<String>> tags = new HashMap<>();
+			tags.put("place", values);
+			builder = builder.withTags(tags);
+		}
+		else {
+			builder = PostcodeQueryBuilder.builder(photonRequest.getPlz(), photonRequest.getLanguage());
+		}
+
+		//TODO nur, wenn gesetzt
+		return builder.withLocationBias(photonRequest.getLocationForBias());
 	}
 }

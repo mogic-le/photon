@@ -9,7 +9,7 @@ public class PlzOrtRequest extends PhotonRequest {
     private final String plz;
     private final String ort;
 
-    public PlzOrtRequest(String plz, String ort, Integer limit, Point locationForBias, String language){
+    PlzOrtRequest(String plz, String ort, Integer limit, Point locationForBias, String language){
         super(null, limit, locationForBias, language);
         this.plz = plz;
         this.ort = ort;
@@ -17,11 +17,19 @@ public class PlzOrtRequest extends PhotonRequest {
 
     @Override
     public String getQuery() {
-        return getOrt();    //XXX
+        return getOrt();
+    }
+
+    public boolean hasPlz() {
+        return plz != null && !plz.isEmpty();
     }
 
     public String getPlz() {
         return plz;
+    }
+
+    public boolean hasOrt() {
+        return ort != null && !ort.isEmpty();
     }
 
     public String getOrt() {
