@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import de.komoot.photon.elasticsearch.Server;
 import de.komoot.photon.mogicext.PlzOrtSearchRequestHandler;
+import de.komoot.photon.mogicext.SteileSearchRequestHandler;
 import de.komoot.photon.nominatim.NominatimConnector;
 import de.komoot.photon.nominatim.NominatimUpdater;
 import lombok.extern.slf4j.Slf4j;
@@ -145,6 +146,8 @@ public class App {
 		get(new SearchRequestHandler("api/", esNodeClient, args.getLanguages()));
 		get(new PlzOrtSearchRequestHandler("plzort", esNodeClient, args.getLanguages()));
 		get(new PlzOrtSearchRequestHandler("plzort/", esNodeClient, args.getLanguages()));
+		get(new SteileSearchRequestHandler("steile", esNodeClient, args.getLanguages()));
+		get(new SteileSearchRequestHandler("steile/", esNodeClient, args.getLanguages()));
 		get(new ReverseSearchRequestHandler("reverse", esNodeClient, args.getLanguages()));
 		get(new ReverseSearchRequestHandler("reverse/", esNodeClient, args.getLanguages()));
 
