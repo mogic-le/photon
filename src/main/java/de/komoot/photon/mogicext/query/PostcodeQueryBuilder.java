@@ -38,9 +38,10 @@ public class PostcodeQueryBuilder implements TagFilterQueryBuilder {
 	public QueryBuilder buildQuery() {
 //		System.err.println("########## query for "+postcode);
 
+		MatchQueryBuilder defaultMatchQueryBuilder = QueryBuilders.matchQuery("collector.default", postcode);
+
 		AndFilterBuilder fb = FilterBuilders.andFilter(
-				FilterBuilders.termFilter("osm_key", "place"),
-				FilterBuilders.termFilter("postcode", postcode)
+				FilterBuilders.termFilter("osm_key", "place")
 		);
 
 		//optional language filter
@@ -48,7 +49,7 @@ public class PostcodeQueryBuilder implements TagFilterQueryBuilder {
 			fb.add(FilterBuilders.existsFilter(String.format("name.%s.raw", language)));
 		}
 
-		return QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), fb);
+		return QueryBuilders.filteredQuery(defaultMatchQueryBuilder, fb);
 	}
 
 	@Override
