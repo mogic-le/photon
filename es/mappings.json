@@ -41,7 +41,7 @@
       },
       "postcode": {
         "type": "string",
-        "index": "not_analyzed",
+        "index": "no",
         "copy_to": [
           "collector.default"
         ]
