@@ -18,7 +18,7 @@ public class PostcodeQueryBuilder implements TagFilterQueryBuilder {
 	}
 
 	/**
-	 * Create an instance of this builder which can then be embellished as needed.
+	 * Create an instance of this builder.
 	 *
 	 * @param plz	post code
 	 * @param language
@@ -29,15 +29,12 @@ public class PostcodeQueryBuilder implements TagFilterQueryBuilder {
 	}
 
 	/**
-	 * When this method is called, all filters are placed inside their {@link OrFilterBuilder OR} or {@link AndFilterBuilder AND} containers and the top level filter builder is
-	 * built. Subsequent invocations of this method have no additional effect. Note that after this method is called, calling other methods on this class also have no effect.
+	 * build the query to be executed.
 	 *
 	 * @see TagFilterQueryBuilder#buildQuery()
 	 */
 	@Override
 	public QueryBuilder buildQuery() {
-//		System.err.println("########## query for "+postcode);
-
 		MatchQueryBuilder defaultMatchQueryBuilder = QueryBuilders.matchQuery("collector.default", postcode);
 
 		AndFilterBuilder fb = FilterBuilders.andFilter(
