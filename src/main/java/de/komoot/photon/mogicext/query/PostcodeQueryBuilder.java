@@ -4,6 +4,8 @@ import com.vividsolutions.jts.geom.Point;
 import de.komoot.photon.query.TagFilterQueryBuilder;
 import org.elasticsearch.index.query.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,10 +37,13 @@ public class PostcodeQueryBuilder implements TagFilterQueryBuilder {
 	 */
 	@Override
 	public QueryBuilder buildQuery() {
+		//full text search for postcode
 		MatchQueryBuilder defaultMatchQueryBuilder = QueryBuilders.matchQuery("collector.default", postcode);
 
+		//filter by osm tags
 		AndFilterBuilder fb = FilterBuilders.andFilter(
-				FilterBuilders.termFilter("osm_key", "place")
+				FilterBuilders.termFilter("osm_key", "place"),
+				FilterBuilders.termFilter("osm_value", "postcode")
 		);
 
 		//optional language filter
