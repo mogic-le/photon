@@ -75,7 +75,7 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
     /**
      * checks, if the result element contains the correct property value
      */
-    private boolean checkProperty(JSONObject result, String property, String value) {
+    protected boolean checkProperty(JSONObject result, String property, String value) {
         if (!result.has("properties"))
             return false;
 
