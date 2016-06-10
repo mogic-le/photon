@@ -36,13 +36,10 @@ public class PlzOrtPhotonRequestHandler extends PhotonRequestHandlerBase<PlzOrtR
 			builder = builder.withTags(tags);
 		}
 		else {
-//			builder = PostcodeQueryBuilder.builder(photonRequest.getPlz(), photonRequest.getLanguage());
-
 			builder = PhotonQueryBuilder.builder(photonRequest.getPlz(), photonRequest.getLanguage());
 			builder.withValues("postcode");
 		}
 
-		//TODO nur, wenn gesetzt
 		return builder.withLocationBias(photonRequest.getLocationForBias());
 	}
 }

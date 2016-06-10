@@ -44,9 +44,6 @@ public class SteilePhotonRequestHandler extends PhotonRequestHandlerBase<SteileR
 
 		builder.withValues("suburb");
 
-		return builder;
-
-		//TODO nur, wenn gesetzt
-//		return builder.withLocationBias(photonRequest.getLocationForBias());
+		return builder.withLocationBias(photonRequest.getLocationForBias());
 	}
 }
