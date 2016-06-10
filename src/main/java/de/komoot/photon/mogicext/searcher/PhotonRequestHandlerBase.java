@@ -45,13 +45,13 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
     }
 
     /**
-     * keeps just these result element that contain the given postcode
+     * keeps just these result element that contain the given postcode (substring)
      */
     protected List<JSONObject> filterPostcode(List<JSONObject> results, String postcode) {
         List<JSONObject> filtered = new Vector<>();
 
         for (JSONObject result: results) {
-            if (checkProperty(result, "postcode", postcode))
+            if (propertyStartingWith(result, "postcode", postcode))
                 filtered.add(result);
         }
 
@@ -65,7 +65,7 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
         List<JSONObject> filtered = new Vector<>();
 
         for (JSONObject result: results) {
-            if (checkProperty(result, "city", city))
+            if (propertyStartingWith(result, "city", city))
                 filtered.add(result);
         }
 
@@ -75,7 +75,7 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
     /**
      * checks, if the result element contains the correct property value
      */
-    protected boolean checkProperty(JSONObject result, String property, String value) {
+    protected boolean propertyMatching(JSONObject result, String property, String value) {
         if (!result.has("properties"))
             return false;
 
@@ -92,6 +92,28 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
 
         String actualValue = (String) pcObj;
         return (actualValue.equals(value));
+    }
+
+    /**
+     * checks, if the result element contains a property value starts with the given value
+     */
+    protected boolean propertyStartingWith(JSONObject result, String property, String value) {
+        if (!result.has("properties"))
+            return false;
+
+        final Object obj = result.get("properties");
+        if (!(obj instanceof JSONObject))
+            return false;
+
+        JSONObject properties = (JSONObject) obj;
+        if (!properties.has(property))
+            return false;
+        final Object pcObj = properties.get(property);
+        if (!(pcObj instanceof String))
+            return false;
+
+        String actualValue = (String) pcObj;
+        return (actualValue.startsWith(value));
     }
 
     protected abstract List<JSONObject> filterResult(List<JSONObject> results, R photonRequest);

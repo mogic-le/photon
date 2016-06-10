@@ -21,8 +21,8 @@ public class ValidatePhotonRequestHandler extends PhotonRequestHandlerBase<Valid
 		List<JSONObject> filtered = new Vector<>();
 
 		for (JSONObject result: results) {
-			final boolean postcodeValid = checkProperty(result, "postcode", photonRequest.getPlz());
-			final boolean cityValid = checkProperty(result, "city", photonRequest.getOrt());
+			final boolean postcodeValid = propertyMatching(result, "postcode", photonRequest.getPlz());
+			final boolean cityValid = propertyMatching(result, "city", photonRequest.getOrt());
 			if (postcodeValid && cityValid)
 				filtered.add(result);
 		}
