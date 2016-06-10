@@ -46,6 +46,12 @@ public class PlzOrtRequestFactory {
             //ignore
         }
 
-        return (R) new PlzOrtRequest(plz, ort, limit, locationForBias, language);
+        R request = (R) new PlzOrtRequest(plz, ort, limit, locationForBias, language);
+
+        String country = webRequest.queryParams("country");
+        if (country != null)
+            request.setCountry(country);
+
+        return request;
     }
 }

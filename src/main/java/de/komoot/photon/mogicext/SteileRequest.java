@@ -3,12 +3,12 @@ package de.komoot.photon.mogicext;
 import com.vividsolutions.jts.geom.Point;
 import de.komoot.photon.query.PhotonRequest;
 
-public class SteileRequest extends PhotonRequest {
+public class SteileRequest extends ExtPhotonRequest {
     private final String plz;
     private final String ort;
 
     SteileRequest(String plz, String ort, Integer limit, Point locationForBias, String language){
-        super(null, limit, locationForBias, language);
+        super(limit, locationForBias, language);
         this.plz = plz;
         this.ort = ort;
     }

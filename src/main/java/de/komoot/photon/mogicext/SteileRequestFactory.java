@@ -46,6 +46,12 @@ public class SteileRequestFactory {
             //ignore
         }
 
-        return (R) new SteileRequest(plz, ort, limit, locationForBias, language);
+        R request = (R) new SteileRequest(plz, ort, limit, locationForBias, language);
+
+        String country = webRequest.queryParams("country");
+        if (country != null)
+            request.setCountry(country);
+
+        return request;
     }
 }

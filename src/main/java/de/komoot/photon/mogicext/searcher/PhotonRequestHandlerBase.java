@@ -59,7 +59,7 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
     }
 
     /**
-     * keeps just these result element that contain the given city
+     * keeps just these result element that contain the given city (substring)
      */
     protected List<JSONObject> filterCity(List<JSONObject> results, String city) {
         List<JSONObject> filtered = new Vector<>();
@@ -73,7 +73,21 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
     }
 
     /**
-     * checks, if the result element contains the correct property value
+     * keeps just these result element that contain the given country
+     */
+    protected List<JSONObject> filterCountry(List<JSONObject> results, String country) {
+        List<JSONObject> filtered = new Vector<>();
+
+        for (JSONObject result: results) {
+            if (propertyMatching(result, "country", country))
+                filtered.add(result);
+        }
+
+        return filtered;
+    }
+
+    /**
+     * checks, if the result element contains the correct property value (case ignoring)
      */
     protected boolean propertyMatching(JSONObject result, String property, String value) {
         if (!result.has("properties"))
@@ -91,11 +105,11 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
             return false;
 
         String actualValue = (String) pcObj;
-        return (actualValue.equals(value));
+        return (actualValue.equalsIgnoreCase(value));
     }
 
     /**
-     * checks, if the result element contains a property value starts with the given value
+     * checks, if the result element contains a property value starts with the given value (case ignoring)
      */
     protected boolean propertyStartingWith(JSONObject result, String property, String value) {
         if (!result.has("properties"))
@@ -112,8 +126,8 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
         if (!(pcObj instanceof String))
             return false;
 
-        String actualValue = (String) pcObj;
-        return (actualValue.startsWith(value));
+        String actualValue = ((String) pcObj).toLowerCase();
+        return (actualValue.startsWith(value.toLowerCase()));
     }
 
     protected abstract List<JSONObject> filterResult(List<JSONObject> results, R photonRequest);

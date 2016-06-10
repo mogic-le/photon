@@ -5,12 +5,12 @@ import de.komoot.photon.query.PhotonRequest;
 
 import java.io.Serializable;
 
-public class PlzOrtRequest extends PhotonRequest {
+public class PlzOrtRequest extends ExtPhotonRequest {
     private final String plz;
     private final String ort;
 
     PlzOrtRequest(String plz, String ort, Integer limit, Point locationForBias, String language){
-        super(null, limit, locationForBias, language);
+        super(limit, locationForBias, language);
         this.plz = plz;
         this.ort = ort;
     }

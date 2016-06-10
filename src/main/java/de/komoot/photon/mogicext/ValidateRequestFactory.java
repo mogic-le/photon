@@ -47,6 +47,12 @@ public class ValidateRequestFactory {
             //ignore
         }
 
-        return (R) new ValidateRequest(plz, ort, steil, limit, locationForBias, language);
+        R request = (R) new ValidateRequest(plz, ort, steil, limit, locationForBias, language);
+
+        String country = webRequest.queryParams("country");
+        if (country != null)
+            request.setCountry(country);
+
+        return request;
     }
 }

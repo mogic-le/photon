@@ -93,6 +93,7 @@ public class PhotonQueryBuilder implements TagFilterQueryBuilder {
 	@Override
 	public TagFilterQueryBuilder withLocationBias(Point point) {
 		if(point == null) return this;
+		System.err.println("location bias: "+point.getX()+","+point.getY());
 		queryBuilder.add(ScoreFunctionBuilders.scriptFunction("location-biased-score", "groovy").param("lon", point.getX()).param("lat", point.getY()));
 		return this;
 	}

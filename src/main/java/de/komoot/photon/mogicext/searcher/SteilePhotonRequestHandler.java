@@ -25,6 +25,9 @@ public class SteilePhotonRequestHandler extends PhotonRequestHandlerBase<SteileR
 		if (photonRequest.hasPlz())
 			filtered = filterPostcode(filtered, photonRequest.getPlz());
 
+		if (photonRequest.hasCountry())
+			filtered = filterCountry(filtered, photonRequest.getCountry());
+
 		return filtered;
 	}
 
