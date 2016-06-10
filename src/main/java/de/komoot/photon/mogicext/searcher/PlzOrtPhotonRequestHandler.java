@@ -17,7 +17,10 @@ public class PlzOrtPhotonRequestHandler extends PhotonRequestHandlerBase<PlzOrtR
 
 	@Override
 	protected List<JSONObject> filterResult(List<JSONObject> results, PlzOrtRequest photonRequest) {
-		return filterPostcode(results, photonRequest.getPlz());
+		if (photonRequest.hasPlz())
+			return filterPostcode(results, photonRequest.getPlz());
+
+		return results;
 	}
 
 	public TagFilterQueryBuilder buildQuery(PlzOrtRequest photonRequest) {
