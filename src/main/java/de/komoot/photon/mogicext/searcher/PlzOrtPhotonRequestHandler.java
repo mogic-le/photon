@@ -21,6 +21,8 @@ public class PlzOrtPhotonRequestHandler extends PhotonRequestHandlerBase<PlzOrtR
 
 		if (photonRequest.hasPlz())
 			filtered = filterPostcode(filtered, photonRequest.getPlz());
+		else if (photonRequest.hasOrt())
+			filtered = filterCity(filtered, photonRequest.getOrt());
 
 		if (photonRequest.hasCountry()) {
 			System.err.println("filtering by country: "+photonRequest.getCountry());
@@ -33,20 +35,16 @@ public class PlzOrtPhotonRequestHandler extends PhotonRequestHandlerBase<PlzOrtR
 	public TagFilterQueryBuilder buildQuery(PlzOrtRequest photonRequest) {
 		TagFilterQueryBuilder builder;
 
+		String query;
 		if (photonRequest.hasOrt()) {
-			builder = PhotonQueryBuilder.builder(photonRequest.getOrt(), photonRequest.getLanguage());
-
-			Set<String> values = new HashSet<>(1);
-			values.add("city");
-			Map<String,Set<String>> tags = new HashMap<>();
-			tags.put("place", values);
-			builder = builder.withTags(tags);
+			query = photonRequest.getOrt();
 		}
 		else {
-			builder = PhotonQueryBuilder.builder(photonRequest.getPlz(), photonRequest.getLanguage());
-			builder.withValues("postcode");
+			query = photonRequest.getPlz();
 		}
 
+		builder = PhotonQueryBuilder.builder(query, photonRequest.getLanguage());
+		builder.withValues("postcode");
 		return builder.withLocationBias(photonRequest.getLocationForBias());
 	}
 }
