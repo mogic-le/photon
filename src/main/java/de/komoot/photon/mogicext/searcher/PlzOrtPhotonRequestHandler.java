@@ -37,7 +37,7 @@ public class PlzOrtPhotonRequestHandler extends PhotonRequestHandlerBase<PlzOrtR
 
 		if (photonRequest.hasOrt()) {
 			builder = PhotonQueryBuilder.builder(photonRequest.getOrt(), photonRequest.getLanguage());
-			builder.withValues("city", "village", "hamlet");
+			builder.withValues("postcode", "city", "village", "hamlet");
 		}
 		else {
 			builder = PhotonQueryBuilder.builder(photonRequest.getPlz(), photonRequest.getLanguage());
