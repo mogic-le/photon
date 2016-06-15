@@ -35,16 +35,15 @@ public class PlzOrtPhotonRequestHandler extends PhotonRequestHandlerBase<PlzOrtR
 	public TagFilterQueryBuilder buildQuery(PlzOrtRequest photonRequest) {
 		TagFilterQueryBuilder builder;
 
-		String query;
 		if (photonRequest.hasOrt()) {
-			query = photonRequest.getOrt();
+			builder = PhotonQueryBuilder.builder(photonRequest.getOrt(), photonRequest.getLanguage());
+			builder.withValues("city", "village", "hamlet");
 		}
 		else {
-			query = photonRequest.getPlz();
+			builder = PhotonQueryBuilder.builder(photonRequest.getPlz(), photonRequest.getLanguage());
+			builder.withValues("postcode");
 		}
 
-		builder = PhotonQueryBuilder.builder(query, photonRequest.getLanguage());
-		builder.withValues("postcode");
 		return builder.withLocationBias(photonRequest.getLocationForBias());
 	}
 }

@@ -65,7 +65,13 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
         List<JSONObject> filtered = new Vector<>();
 
         for (JSONObject result: results) {
-            if (propertyStartingWith(result, "city", city))
+            //wenn city vorhanden, aber nicht dem gesuchten entspricht, dann auslassen
+            String propCity = getProperty(result, "city");
+            if (propCity != null && !propCity.toLowerCase().startsWith(city.toLowerCase()))
+                continue;
+
+            //ansonsten city ignorieren und auf name matchen
+            if (propertyStartingWith(result, "name", city))
                 filtered.add(result);
         }
 
@@ -128,6 +134,24 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
 
         String actualValue = ((String) pcObj).toLowerCase();
         return (actualValue.startsWith(value.toLowerCase()));
+    }
+
+    protected String getProperty(JSONObject result, String property) {
+        if (!result.has("properties"))
+            return null;
+
+        final Object obj = result.get("properties");
+        if (!(obj instanceof JSONObject))
+            return null;
+
+        JSONObject properties = (JSONObject) obj;
+        if (!properties.has(property))
+            return null;
+        final Object pcObj = properties.get(property);
+        if (!(pcObj instanceof String))
+            return null;
+
+        return ((String) pcObj);
     }
 
     protected abstract List<JSONObject> filterResult(List<JSONObject> results, R photonRequest);
