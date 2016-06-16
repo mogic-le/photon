@@ -59,9 +59,10 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
     }
 
     /**
-     * keeps just these result element that contain the given city (substring)
+     * keeps just these result elements whose names start with the given city name.
+     * If a city property exists, it has to start with the requested name, too.
      */
-    protected List<JSONObject> filterCity(List<JSONObject> results, String city) {
+    protected List<JSONObject> filterNameAndCity(List<JSONObject> results, String city) {
         List<JSONObject> filtered = new Vector<>();
 
         for (JSONObject result: results) {
@@ -72,6 +73,20 @@ public abstract class PhotonRequestHandlerBase<R extends PhotonRequest> implemen
 
             //ansonsten city ignorieren und auf name matchen
             if (propertyStartingWith(result, "name", city))
+                filtered.add(result);
+        }
+
+        return filtered;
+    }
+
+    /**
+     * keeps just these result elements that contain the given city (substring)
+     */
+    protected List<JSONObject> filterCity(List<JSONObject> results, String city) {
+        List<JSONObject> filtered = new Vector<>();
+
+        for (JSONObject result: results) {
+            if (propertyStartingWith(result, "city", city))
                 filtered.add(result);
         }
 

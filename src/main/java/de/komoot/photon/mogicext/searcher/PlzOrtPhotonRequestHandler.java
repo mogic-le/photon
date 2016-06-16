@@ -22,7 +22,7 @@ public class PlzOrtPhotonRequestHandler extends PhotonRequestHandlerBase<PlzOrtR
 		if (photonRequest.hasPlz())
 			filtered = filterPostcode(filtered, photonRequest.getPlz());
 		else if (photonRequest.hasOrt())
-			filtered = filterCity(filtered, photonRequest.getOrt());
+			filtered = filterNameAndCity(filtered, photonRequest.getOrt());
 
 		if (photonRequest.hasCountry()) {
 			System.err.println("filtering by country: "+photonRequest.getCountry());
